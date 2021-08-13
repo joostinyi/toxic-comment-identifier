@@ -36,9 +36,9 @@ Coding center code - comment out the following 4 lines of code when ready for pr
 
 # setup the webserver
 # port may need to be changed if there are multiple flask servers running on same server
-port = 12339
-base_url = get_base_url(port)
-app = Flask(__name__, static_url_path=base_url+'static')
+# port = 12339
+# base_url = get_base_url(port)
+app = Flask(__name__)
 
 
 class BertClassifier(nn.Module):
