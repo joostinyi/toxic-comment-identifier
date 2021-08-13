@@ -93,7 +93,7 @@ def home():
 @app.route('/result', methods = ['POST'])
 # @app.route(base_url + '/result', methods = ['POST'])
 def result(message=""):
-    print(message)
+    message = request.form['message']
     text = tokenizer.encode(message, add_special_tokens=True)
     if len(text) > 120:
         text = text[:119] + [tokenizer.sep_token_id]
