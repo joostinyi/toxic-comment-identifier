@@ -77,7 +77,7 @@ checkpoint = torch.load(output_model, map_location='cpu')
 model.load_state_dict(checkpoint['model_state_dict'], strict=False)
 columns = ['toxic', 'severe_toxic', 'obscene', 'threat', 'insult', 'identity_hate']
 model.eval()
-texts = []
+
 
 
 '''
@@ -93,6 +93,9 @@ def home():
 @app.route('/result', methods = ['POST'])
 # @app.route(base_url + '/result', methods = ['POST'])
 def result(message=""):
+    texts = []
+    results = {}
+    result = ""
     message = request.form['message']
     text = tokenizer.encode(message, add_special_tokens=True)
     if len(text) > 120:
@@ -104,11 +107,10 @@ def result(message=""):
         _, outputs = model(x, attention_mask=mask)
     outputs = outputs.cpu().numpy()
 
-    results = {}
     for ind, col in enumerate(columns):
         results[f"{col}"] = f"{outputs[0][ind]}"
     output = dict(sorted(results.items(), key = lambda item: item[1], reverse = True))
-    result = ""
+
     for key, value in output.items():
         val = float(value)
         result += key + ': ' + str(round(val, 2)) + '\n'
